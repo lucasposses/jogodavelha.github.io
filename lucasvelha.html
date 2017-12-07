@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Jogo da Velha</title>
+<meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+var jogador = 'x'; <!-- necessário criar essa variável para saber de quem é a vez de jogar. O primeiro a jogar sempre será o xis-->
+var jogada = 0; <!-- para checar condicao de empate.-->
+function chkJogo(id) {
+	var src = chkSrc(id); <!-- chama a função chkSrc entrando como parâmetro o ID e salvando na variável src o substring-->
+	if (src == 'branco.png') {
+		document.getElementById(id).src = "img/" + jogador + ".png"; <!-- pega o source do Id que foi passado como parametro e muda para "img/x ou o .png" para mudar para mudar a imagem para o xis ou bola.-->
+		jogada++;         <!-- incrementa 1 na variável jogada-->
+		if (chkVitoria()) { <!-- para checar se houve vitória , se vitória for true, acaba o jogo.-->
+			alert('Fim do jogo ! Vitória do ' + jogador);
+			location.reload(); <!-- recarrega a pagina-->
+		}
+		if (jogada >= 9) { <!-- se todas as casas tiverem sido preenchidas e não houve condição de vitoria, alerta deu empate.-->
+			alert('Jogo empatado!');
+			location.reload(); 
+		}
+		if (jogador == 'x') { <!-- se a variável jogador tiver com o x, muda para o jogador o. Senão, muda de novo para x.-->
+			jogador = 'o';
+			} else {
+				jogador = 'x';
+			}
+		}
+}
+function chkSrc(id) {
+	var src = document.getElementById(id).src; <!-- pega o src(fonte) do elemento com o ID que entrou como parametro.-->
+	return src.substring(src.length - 10, src.length);<!-- substring pega um pedaço do texto começando do tamanho do texto - 10, até o tamanho total do texto. Se o texto tiver 100 caracters, pega de 90 até 100. -->
+}
+function chkVitoria() {<!-- várias condições de vitoria:-->
+	if ((chkSrc('cel1') == chkSrc('cel2')) && (chkSrc('cel1') == chkSrc('cel3')) && (chkSrc('cel1') != 'branco.png')){
+		return true;
+	}
+	if ((chkSrc('cel4') == chkSrc('cel5')) && (chkSrc('cel4') == chkSrc('cel6')) && (chkSrc('cel4') != 'branco.png')){
+		return true;
+	}
+	if ((chkSrc('cel7') == chkSrc('cel8')) && (chkSrc('cel7') == chkSrc('cel9')) && (chkSrc('cel7') != 'branco.png')){
+		return true;
+	}
+	if ((chkSrc('cel1') == chkSrc('cel4')) && (chkSrc('cel1') == chkSrc('cel7')) && (chkSrc('cel1') != 'branco.png')){
+		return true;
+	}
+	if ((chkSrc('cel2') == chkSrc('cel5')) && (chkSrc('cel2') == chkSrc('cel8')) && (chkSrc('cel2') != 'branco.png')){
+		return true;
+	}
+	if ((chkSrc('cel3') == chkSrc('cel6')) && (chkSrc('cel3') == chkSrc('cel9')) && (chkSrc('cel3') != 'branco.png')){
+		return true;
+	}
+	if ((chkSrc('cel1') == chkSrc('cel5')) && (chkSrc('cel1') == chkSrc('cel9')) && (chkSrc('cel1') != 'branco.png')){
+		return true;
+	}
+	if ((chkSrc('cel3') == chkSrc('cel5')) && (chkSrc('cel3') == chkSrc('cel7')) && (chkSrc('cel3') != 'branco.png')){
+		return true;
+	}
+	return false <!-- se nenhuma dessas for true, retorna false para continuar o jogo.-->
+}
+</script>
+</head>
+<body bgcolor="#000">
+<!-- tira a borda da tabela e coloca no centro da página. Cellspacing aumenta o espaçamento entre cada quadrado-->
+<div class="table-responsive">
+<table class="table table-bordered" border="0" align="center" cellspacing="5">
+    <tbody>
+  <tr> <!-- para construção de linhas na tabela -->
+	<td> <img src="branco.png" id="cel1" onclick="chkJogo(this.id)"></td> <!-- para construção de colunas -->
+	<td> <img src="branco.png" id="cel2" onclick="chkJogo(this.id)"></td> <!-- o elemento onClick chama a função chkJogo quando a imagem é clicada. A entrada de parâmetro this.id, pega o id do "this", que se refere à imagem.-->
+	<td> <img src="branco.png" id="cel3" onclick="chkJogo(this.id)"></td>
+  </tr> <!-- primeira linha com três colunas-->
+  <tr>
+    <td> <img src="branco.png" id="cel4" onclick="chkJogo(this.id)"></td>
+    <td> <img src="branco.png" id="cel5" onclick="chkJogo(this.id)"></td>
+    <td> <img src="branco.png" id="cel6" onclick="chkJogo(this.id)"></td>
+ </tr>
+ <tr>
+    <td><img src="branco.png" id="cel7" onclick="chkJogo(this.id)"></td>
+    <td><img src="branco.png" id="cel8" onclick="chkJogo(this.id)"></td>
+    <td><img src="branco.png" id="cel9" onclick="chkJogo(this.id)"></td>
+ </tr>
+   </tbody>
+ </table>
+ </div>
+</body>
+</html>
